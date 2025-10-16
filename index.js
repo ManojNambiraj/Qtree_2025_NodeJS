@@ -3,22 +3,19 @@ const app = express();
 const db = require("./config/db");
 const cors = require("cors");
 require("dotenv").config();
+const userRouter = require("./router/userRouter");
 
-(() => {
-  app.use(express.json());
-  app.use(
-    cors({
-      origin: "*",
-    })
-  );
+app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-  db(process.env.MONGO_URL);
+db(process.env.MONGO_URL)
 
-  app.get("/demo", (req, res) => {
-    res.send("Hello, I'm node 1st APP");
-  });
-})();
+app.use("/", userRouter)
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running in ${process.env.PORT}`);
-}); 
+});
